@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 module.exports = {
   solidity: {
@@ -12,13 +13,13 @@ module.exports = {
   },
   networks: {
     bscTestnet: {
-      url: "https://bsc-testnet.publicnode.com",
-      accounts: ["34fba2f5dc20864296a852f2862b7836779c197f65b84453a29d4b8723ea2d6a"],
+      url: process.env.BSC_TESTNET_RPC_URL,
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
   etherscan: {
     apiKey: {
-      bscTestnet: "ATQ1FFHC6H6NSCY52CQA8DRSXJ6I5ZCUNM" // <-- Replace with your actual API key
+      bscTestnet: process.env.BSCSCAN_API_KEY
     }
   }
 };
