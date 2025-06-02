@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("dotenv").config();
 
 module.exports = {
   solidity: "0.8.20",
@@ -6,7 +7,7 @@ module.exports = {
     hardhat: {},
     bsctestnet: {
       url: "https://data-seed-prebsc-1-s1.binance.org:8545/",
-      accounts: ["0xYOUR_PRIVATE_KEY"] // Replace with your actual private key
-    }
-  }
+      accounts: [process.env.PRIVATE_KEY ? `0x${process.env.PRIVATE_KEY}` : ""],
+    },
+  },
 };
