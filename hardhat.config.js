@@ -2,8 +2,6 @@ require("@nomicfoundation/hardhat-toolbox");
 require("@nomicfoundation/hardhat-verify");
 require("dotenv").config();
 
-console.log("Loaded BscScan API Key:", process.env.BSCSCAN_API_KEY); // Optional debug
-
 module.exports = {
   solidity: {
     version: "0.8.20",
