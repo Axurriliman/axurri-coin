@@ -1,23 +1,31 @@
 const hre = require("hardhat");
 
 async function main() {
-  // Replace this with your desired initial owner address
-  const initialOwner = "0xbb3DBB8dcBfb1e03Fdd3DBE8302418F476dbAC94";
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying AxurriToken with the account:", deployer.address);
 
-  // Compile & get the contract factory
   const AxurriToken = await hre.ethers.getContractFactory("AxurriToken");
-
-  // Deploy the contract
-  const token = await AxurriToken.deploy(initialOwner);
-
-  // Wait for deployment to complete
+  const token = await AxurriToken.deploy(deployer.address);
   await token.deployed();
 
-  // Print the deployed address
-  console.log("AxurriToken deployed to:", token.address);
+  console.log("AxurriToken deployed to address:", token.address);
+  console.log("Waiting for 6 block confirmations before verifying...");
+
+  // Wait for block confirmations (BscScan needs this)
+  await token.deployTransaction.wait(6);
+
+  try {
+    await hre.run("verify:verify", {
+      address: token.address,
+      constructorArguments: [deployer.address],
+    });
+    console.log("Contract verified successfully!");
+  } catch (err) {
+    console.error("Verification failed:", err);
+  }
 }
 
 main().catch((error) => {
-  console.error("Deployment failed:", error);
+  console.error(error);
   process.exitCode = 1;
 });
